@@ -5,26 +5,52 @@ can be more systematically embedded in analytic workflows.
 
 ## Running the Demo
 
-1. Launch a new R session with the repository root directory as your working
-   directory.
-2. Step through the code in `workflow.R`
+Kick off a new R session (in the project root as the working directory to pick
+up the .Rprofile settings). 
+
+We can take a look at the available packages, which will automatically apply a
+filter for "low risk" packages as specified in `.Rprofile`.
 
 ```r
-# use the project directory (./src/contrib) to spoof a remote repository
-options(repos = c("Local Example Repo" = "file:."))
-
-# by default, we set a "low risk only" filter (see .Rprofile)
 packages <- available.packages()
 nrow(packages)
 #> 5 "low risk" packages
+```
 
-# we can remove the default and permit any package
+Attempting to install a package with a vulnerability will abort the installation
+and warn of the vulnerability. Installing packages with known vulnerabilities
+must be opted into.
+
+```r
+# installing a package with known vulnerabilities will abort installation
+install.packages("options")
+#> Security vulnerabilities found in packages to be installed.
+#> To proceed with installation, re-run with `accept_vulnerabilities = TRUE`
+#> 
+#> ── Vulnerability overview ──
+#> 
+#> ℹ 1 package was scanned
+#> ℹ 1 package was found in the Sonatype database
+#> ℹ 1 package had known vulnerability
+#> ℹ A total of 1 known vulnerability was identified
+#> ℹ See https://github.com/sonatype-nexus-community/oysteR/ for details.
+```
+
+We can also turn off the "low risk" package filter by disabling non-default
+filters just to show that the package database is being appropriately subset by
+our metric heuristics. Now we can see that we have access to 17 packages,
+whereas we only had access to 5 "low risk" packages.
+
+```r
 options(available_packages_filters = NULL)
 
 packages <- available.packages()
 nrow(packages)  
 #> 17 available packages
 ```
+
+> **Note:**  
+> My `options` package has no known vulnerabilities! This is just a demo :)
 
 ## Project Tour
 
@@ -52,6 +78,11 @@ There are a few key components to this process:
    This simple script showcases how the metrics can be pulled from the local
    repository's index file and used to filter for some pre-specified risk
    criteria.
+
+1. `fixtures/audit.Rds`
+   A fixed output of `oysteR::audit()` so that the demo is reproducible. I
+   provided a vulnerability for one of my own packages because vulnerable
+   packages might be fixed in the future.
 
 ## Further Work
 

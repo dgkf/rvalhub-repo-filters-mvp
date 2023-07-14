@@ -228,6 +228,19 @@ MetricHasNews: 1
 MetricHasSourceControl: 1
 MetricHasVignettes: 1
 
+Package: options
+Version: 0.0.1
+Imports: utils
+Suggests: crayon, knitr, rmarkdown, roxygen2, testthat (>= 3.0.0)
+License: MIT + file LICENSE
+MD5sum: ea415edcb75225cbd5390a8170b62806
+NeedsCompilation: no
+MetricCoverage: 0.88
+MetricHasBugReportsURL: 1
+MetricHasNews: 1
+MetricHasSourceControl: 1
+MetricHasVignettes: 1
+
 Package: rclipboard
 Version: 0.1.6
 Depends: R (>= 3.3.0)
