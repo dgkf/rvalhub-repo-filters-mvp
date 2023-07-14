@@ -5,6 +5,8 @@ can be more systematically embedded in analytic workflows.
 
 ## Running the Demo
 
+> The full demo code is available in `workflow.R`
+
 Kick off a new R session (in the project root as the working directory to pick
 up the .Rprofile settings). 
 
